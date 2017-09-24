@@ -1,0 +1,4 @@
+# raspberryPiLib
+# raspberryPiLib
+新しいRaspberrypi用のライブラリ群です
+以降、このレポジトリを最新のものとしアップデートしていきます
