@@ -11,8 +11,8 @@ static int indexTableDirection;                           /* インデックス 
 static int position;
 static int dataCurrentA,dataCurrentB;
 
-int positionRotary;//割り込みを使ったgetposition()での位置情報出力用変数
+extern int positionRotary;//割り込みを使ったgetposition()での位置情報出力用変数
 int getPosition(void);//ポーリングによるロータリースイッチ位置検出
-void getPositionISR(void);//割り込みを使ったロータリースイッチ位置検出
+extern void getPositionISR(void);//割り込みを使ったロータリースイッチ位置検出
 
 #endif

@@ -41,8 +41,8 @@ void getPositionISR(){
   int dataB = digitalRead(ROTARY_PORTB);
 
   
-  if(indexTableDirectionCurrent != indexTableDirectionBefore){  
-    //if( dataABefore!=dataA || dataBBefore!=dataB){
+  
+  if( dataABefore!=dataA || dataBBefore!=dataB){
     indexTableDirectionCurrent = (indexTableDirectionBefore << 2) + ((dataA<<1)+dataB);   /* 前回値と今回値でインデックスとする */
     n = dir[indexTableDirectionCurrent & 15];                    /* 変化パターンから動きを得る */
     if (n) {                            /* 動きがあったら位置更新 */
