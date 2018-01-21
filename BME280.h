@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <wiringPi.h>
 #include <wiringPiI2C.h>
+#include <stdint.h>
 
 
 #define BME280_ADDRESS 0x76
@@ -12,6 +13,18 @@ signed long int t_fine;
 unsigned int dig_T1;
 int dig_T2;
 int dig_T3;
+
+uint16_t dig_P1;
+int16_t dig_P2;
+int16_t dig_P3;
+int16_t dig_P4;
+int16_t dig_P5;
+int16_t dig_P6;
+int16_t dig_P7;
+int16_t dig_P8;
+int16_t dig_P9;
+
+/*
 unsigned int dig_P1;
 int dig_P2;
 int dig_P3;
@@ -21,6 +34,8 @@ int dig_P6;
 int dig_P7;
 int dig_P8;
 int dig_P9;
+*/
+
 char  dig_H1;
 int dig_H2;
 char  dig_H3;

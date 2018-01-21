@@ -29,6 +29,18 @@ void readTrim()
   dig_T1 = (data[1] << 8) | data[0];
   dig_T2 = (data[3] << 8) | data[2];
   dig_T3 = (data[5] << 8) | data[4];
+
+  dig_P1 = (uint16_t)((data[7] << 8) | data[6]);
+  dig_P2 = (int16_t)((data[9] << 8) | data[8]);
+  dig_P3 = (int16_t)((data[11]<< 8) | data[10]);
+  dig_P4 = (int16_t)((data[13]<< 8) | data[12]);
+  dig_P5 = (int16_t)((data[15]<< 8) | data[14]);
+  dig_P6 = (int16_t)((data[17]<< 8) | data[16]);
+  dig_P7 = (int16_t)((data[19]<< 8) | data[18]);
+  dig_P8 = (int16_t)((data[21]<< 8) | data[20]);
+  dig_P9 = (int16_t)((data[23]<< 8) | data[22]);
+
+  /*
   dig_P1 = (data[7] << 8) | data[6];
   dig_P2 = (data[9] << 8) | data[8];
   dig_P3 = (data[11]<< 8) | data[10];
@@ -38,6 +50,8 @@ void readTrim()
   dig_P7 = (data[19]<< 8) | data[18];
   dig_P8 = (data[21]<< 8) | data[20];
   dig_P9 = (data[23]<< 8) | data[22];
+  */
+  
   dig_H1 = data[24];
   dig_H2 = (data[26]<< 8) | data[25];
   dig_H3 = data[27];
@@ -89,6 +103,64 @@ signed long int calibration_T(signed long int adc_T)
   return T;
 }
 
+
+unsigned long int calibration_P(signed long int adc_P)
+{
+  /*
+	global  t_fine
+	pressure = 0.0
+	
+	v1 = (t_fine / 2.0) - 64000.0
+	v2 = (((v1 / 4.0) * (v1 / 4.0)) / 2048) * digP[5]
+	v2 = v2 + ((v1 * digP[4]) * 2.0)
+	v2 = (v2 / 4.0) + (digP[3] * 65536.0)
+	v1 = (((digP[2] * (((v1 / 4.0) * (v1 / 4.0)) / 8192)) / 8)  + ((digP[1] * v1) / 2.0)) / 262144
+	v1 = ((32768 + v1) * digP[0]) / 32768
+	
+	if v1 == 0:
+		return 0
+	pressure = ((1048576 - adc_P) - (v2 / 4096)) * 3125
+	if pressure < 0x80000000:
+		pressure = (pressure * 2.0) / v1
+	else:
+		pressure = (pressure / v1) * 2
+	v1 = (digP[8] * (((pressure / 8.0) * (pressure / 8.0)) / 8192.0)) / 4096
+	v2 = ((pressure / 4.0) * digP[7]) / 8192.0
+	pressure = pressure + ((v1 + v2 + digP[6]) / 16.0)  
+
+	print "pressure : %7.2f hPa" % (pressure/100)
+  */
+  
+  double var1, var2;
+  signed long int P;
+  var1 = (t_fine / 2.0) - 64000;
+  var2 = (((var1 / 4.0) * (var1 / 4.0)) / 2048) * dig_P6 ;
+  var2 = var2 + ((var1 * dig_P5) * 2.0) ;
+  var2 = (var2 / 4.0) + (dig_P4 * 65536.0);
+  var1 = (((dig_P3 * (((var1 / 4.0) * (var1 / 4.0)) / 8192)) / 8)  + ((dig_P2 * var1) / 2.0)) / 262144;
+  var1 = ((32768 + var1) * dig_P1) / 32768;
+  if (var1 == 0)
+    {
+      return 0;
+    }
+  P = ((1048576 - adc_P) - (var2 / 4096)) * 3125;
+
+  
+  if(P<0x80000000)
+    {
+      P = (P * 2.0) / var1;
+    }
+  else
+    {
+      P = (P / var1) * 2;
+    }
+  
+  var1 = (dig_P9 * (((P / 8.0) * (P / 8.0)) / 8192.0)) / 4096;
+  var2 =((P / 4.0) * dig_P8) / 8192.0;
+  P = P + ((var1 + var2 + dig_P7) / 16.0);
+  return P;
+}
+/*
 unsigned long int calibration_P(signed long int adc_P)
 {
   signed long int var1, var2;
@@ -117,7 +189,7 @@ unsigned long int calibration_P(signed long int adc_P)
   P = (unsigned long int)((signed long int)P + ((var1 + var2 + dig_P7) >> 4));
   return P;
 }
-
+*/
 unsigned long int calibration_H(signed long int adc_H)
 {
   signed long int v_x1;
