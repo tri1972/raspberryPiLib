@@ -1,6 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
-add_library(lib STATIC
-  lib_mcp3002.c
-  lib_ST7032i.c
-  lib_mpl115a2.c
+add_library(aquaBoardFunctions
+  libRotaryEncoder.c
+  BME280.c
+  lib_mcp3425.c
   )
+
+# インストール
+install (TARGETS aquaBoardFunctions DESTINATION bin)
+install (FILES libRotaryEncoder.h BME280.h lib_mcp3425.h DESTINATION include)
